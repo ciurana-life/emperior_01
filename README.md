@@ -30,3 +30,5 @@ poetry run black .; poetry run isort .
 
 ## TODO
 - Tests
+
+*test edit from ipad
