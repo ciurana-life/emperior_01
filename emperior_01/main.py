@@ -1,17 +1,19 @@
 import argparse
-from os.path import exists
+import os
 
 import yfinance as yf
+
 from helpers import cprint, validate_date_format
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-s", "--symbol", type=str)
-parser.add_argument("-f", "--from_date", type=str)
-parser.add_argument("-t", "--to_date", type=str)
-args = parser.parse_args()
 
+def main():
 
-def main() -> bool:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-s", "--symbol", type=str)
+    parser.add_argument("-f", "--from_date", type=str)
+    parser.add_argument("-t", "--to_date", type=str)
+    parser.add_argument("-o", "--output", type=str, default=".")
+    args = parser.parse_args()
 
     # [1] Check all the args passed are correctly formated.
     args_has_err = False
@@ -41,16 +43,17 @@ def main() -> bool:
 
     # [2] Define a file name given the args and check if the file exists or not.
     output_file_name = f"{args.symbol}_{args.from_date}_{args.to_date}.csv"
-    if exists(output_file_name):
-        cprint(f"a file with the name {output_file_name} already exists", "R")
+    output_file_path = os.path.join(args.output, output_file_name)
+    if os.path.exists(output_file_path):
+        cprint(f"a file at {output_file_path} already exists", "R")
         return False
 
     # [3] Download and write to file.
     data = yf.download(args.symbol, args.from_date, args.to_date)
-    with open(output_file_name, "w") as output_file:
+    with open(output_file_path, "w") as output_file:
         output_file.write(data.to_csv())
 
-    cprint(f"Data was saved on file {output_file_name} :)", "G")
+    cprint(f"Data was saved at {output_file_path} :)", "G")
     return True
 
 
