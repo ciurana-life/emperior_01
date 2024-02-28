@@ -18,6 +18,11 @@ A specific example to download TSLA from November 2018 to November 2019:
 poetry run python emperior_01/main.py -s TSLA -f 2018-11-01 -t 2019-11-01
 ```
 
+Getting 1 minute intervals instead of daily:
+```
+poetry run python emperior_01/main.py -s TSLA -f 2024-02-26 -t 2024-02-27 -i True
+```
+
 Setting `-o` will allow you to specify an output path for the file like this:
 ```
 poetry run python emperior_01/main.py -s TSLA -f 2018-11-01 -t 2019-11-01 -o <PATH>
